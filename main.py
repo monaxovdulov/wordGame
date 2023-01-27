@@ -1,10 +1,28 @@
-word = input('игрок 1 начинает игру и вводит любое слово\n чтобы выйти из игры введите команду stop')
-used_words = [word] # список уже использованных слов, сразу создаем с первым словом word
-counter = 1 # перемнная счётчик, для того чтобы в цикле игроки шли по очереди
-while word != "stop": # код ниже будет выполняться до тех пор пока игрок не введет слово "stop"
+score_player1 = 0
+score_player2 = 0
+
+user_word = input('игрок 1 начинает игру и вводит любое слово\n чтобы выйти из игры введите команду stop').lower()
+used_words = [user_word]
+counter = 1
+while user_word != "stop":
+    print(f"Счёт игроков\nИгрок 1 - {score_player1}\nИгрок 2 - {score_player2}\n")
     print("Слова которые уже были", used_words)
-    last_letter = word[-1] # делаем срез строки по индексу [-1]  чтобы получить последнюю букву 
-    word = input(f'Игрок {counter%2 + 1} вводите слово на букву "{last_letter}"')  # counter%2 получаем остаток от деления counter на 2
-    # если число четное, остаток будет 0 и это ход игрока 1 , а если число нечетное то остаток будет 1  и это ход игрока 2
-    counter += 1 # увеличиваем переменную counter на 1 
-    used_words.append(word) # добавляем слово в список использованных слов
+    last_letter = user_word[-1]
+    if not (last_letter in "ячсмитбюэждлорпавфйцукенгшщзхё"):
+        last_letter = user_word[-2]
+
+    user_word = input(f'Игрок {counter % 2 + 1} вводите слово на букву "{last_letter}"').lower()
+    while user_word in used_words:
+        print(f'СЛОВО {user_word} уже было введите другое')
+        user_word = input(f'Игрок {counter % 2 + 1} вводите слово на букву "{last_letter}"').lower()
+    while user_word[0] != last_letter:
+        print(f"Предыдущее слово не начинается на букву '{user_word[0]}', пожалуйста введите букву начинающуюся на {last_letter} ")
+        user_word = input(f'Игрок {counter % 2 + 1} вводите слово на букву "{last_letter}"').lower()
+
+    if counter % 2 == 0:
+        score_player1 = score_player1 + 10
+    else:
+        score_player2 = score_player1 + 10
+
+    counter += 1
+    used_words.append(user_word)
